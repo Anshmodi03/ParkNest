@@ -8,7 +8,7 @@ const PORT = 8000 || 5000; // Use environment variable or default
 
 // Configure CORS with specific origin and headers
 const corsOptions = {
-  origin: "https://parkme-lac.vercel.app", // Update with your client URL
+  origin: "https://parkme-lac.vercel.app/", // Update with your client URL
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true, // Allow cookies if needed
