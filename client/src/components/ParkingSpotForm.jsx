@@ -49,7 +49,7 @@ const ParkingSpotForm = ({ onNewEntry, initialSlotNumber = "" }) => {
   useEffect(() => {
     const fetchOccupiedSlots = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/spots");
+        const response = await axios.get("https://server-delta-blue.vercel.app/api/spots");
         const occupied = response.data
           .filter((spot) => spot.occupied)
           .map((spot) => spot.slotNumber);
@@ -84,7 +84,7 @@ const ParkingSpotForm = ({ onNewEntry, initialSlotNumber = "" }) => {
 
       // If validation passes, proceed with form submission
       const response = await axios.post(
-        "http://localhost:8000/api/reserve",
+        "https://server-delta-blue.vercel.app/api/reserve",
         formData
       );
       onNewEntry(response.data);
