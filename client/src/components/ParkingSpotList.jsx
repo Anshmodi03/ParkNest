@@ -7,7 +7,7 @@ import { faX } from "@fortawesome/free-solid-svg-icons";
 import SpringModal from "./SpringModal"; // Import SpringModal
 import { useNavigate } from "react-router-dom";
 
-const socket = io("https://server-delta-blue.vercel.app/");
+const socket = io("https://server-delta-blue.vercel.app");
 
 const ParkingSpotList = () => {
   const [spots, setSpots] = useState([]);
@@ -18,7 +18,9 @@ const ParkingSpotList = () => {
   const navigate = useNavigate();
 
   const fetchSpots = async () => {
-    const response = await axios.get("https://server-delta-blue.vercel.app/api/spots");
+    const response = await axios.get(
+      "https://server-delta-blue.vercel.app/api/spots"
+    );
     setSpots(response.data);
   };
 
@@ -49,7 +51,9 @@ const ParkingSpotList = () => {
 
   const handleDeleteSpot = async () => {
     try {
-      await axios.delete(`https://server-delta-blue.vercel.app/api/spots/${spotToDelete}`);
+      await axios.delete(
+        `https://server-delta-blue.vercel.app/api/spots/${spotToDelete}`
+      );
       setSpots((prevSpots) =>
         prevSpots.filter((spot) => spot._id !== spotToDelete)
       );
