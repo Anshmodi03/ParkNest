@@ -1,0 +1,56 @@
+/* Windows */
+.window {
+  position: absolute;
+  top: -15px;
+  width: 30px;
+  height: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 4px;
+  box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.2);
+}
+
+.window.left {
+  left: 45px;
+}
+
+.window.right {
+  right: 35px;
+}
+
+/* Wheels */
+.wheel {
+  position: absolute;
+  bottom: -15px;
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle, #333 20%, #111);
+  border-radius: 50%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.wheel.left {
+  left: 15px;
+}
+
+.wheel.right {
+  right: 15px;
+}
+
+/* Headlights */
+.headlight {
+  position: absolute;
+  top: 5px;
+  width: 15px;
+  height: 15px;
+  background: radial-gradient(circle, #ffeb3b 60%, #ffa000);
+  border-radius: 50%;
+  box-shadow: 0 0 20px 10px rgba(255, 235, 59, 0.6);
+}
+
+.headlight.left {
+  left: -10px;
+}
+
+.headlight.right {
+  right: -10px;
+}

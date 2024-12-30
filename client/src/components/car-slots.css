@@ -1,0 +1,35 @@
+/* Available slot */
+.available {
+  background-color: white;
+  color: #000;
+}
+
+.available:hover {
+  background-color: green;
+  color: white;
+}
+
+/* Occupied slot */
+.occupied {
+  background-color: red;
+  color: white;
+  cursor: default;
+}
+
+.occupied:hover {
+  transform: none;
+}
+
+/* Selected slot */
+.selected {
+  background: linear-gradient(135deg, #2196f3, #64b5f6);
+}
+
+/* Slot hover effects */
+.available:hover {
+  transform: scale(1.1);
+}
+
+.car:hover {
+  transform: scale(1.1);
+}
