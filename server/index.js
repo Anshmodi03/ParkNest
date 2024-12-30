@@ -14,7 +14,11 @@ const server = http.createServer(app);
 // Configure Socket.IO with CORS
 const io = new Server(server, {
   cors: {
+<<<<<<< HEAD
     origin: "https://parkme-lac.vercel.app", // Allow your frontend
+=======
+    origin: "https://parkme-lac.vercel.app", // Client URL
+>>>>>>> e2275e8f64d7b4bdadd8a637d2acee06fa7f195a
     methods: ["GET", "POST"],
     credentials: true, // Allow credentials
   },
