@@ -2,11 +2,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const http = require("http");
-const { Server } = require("socket.io");
 
 const app = express();
-const server = http.createServer(app);
+const PORT = 8000 || 5000; // Use environment variable or default
 
 // Configure CORS with specific origin and headers
 const corsOptions = {
@@ -16,13 +14,6 @@ const corsOptions = {
   credentials: true, // Allow cookies if needed
 };
 app.use(cors(corsOptions));
-
-// Configure Socket.IO with CORS
-const io = new Server(server, {
-  cors: corsOptions,
-});
-
-const PORT = 8000 || 5000; // Use environment variable or default
 
 app.use(bodyParser.json());
 
@@ -40,23 +31,28 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("Error connecting to MongoDB:", err));
 
-// Notify clients of new entries via Socket.IO
-io.on("connection", (socket) => {
-  console.log("Client connected");
+// In-memory queue to hold long-polling clients
+let longPollingClients = [];
 
-  // Example: Send a message to the client
-  socket.emit("message", "Welcome to the server!");
+// Route for long polling to notify clients of new entries
+app.get("/api/notify", (req, res) => {
+  // Add client to the queue and hold the request
+  longPollingClients.push(res);
 
-  socket.on("disconnect", () => {
-    console.log("Client disconnected");
+  // Respond when a new entry is available
+  // You could have a mechanism to push notifications
+  // when new spots are reserved or data is changed
+  res.on("close", () => {
+    // Clean up when client disconnects
+    longPollingClients = longPollingClients.filter((client) => client !== res);
   });
 });
 
-// Import routes after setting up Socket.IO
-const parkingRoutes = require("./routes/parking")(io); // Pass io instance
+// Import routes
+const parkingRoutes = require("./routes/parking");
 app.use("/api", parkingRoutes);
 
 // Start the server
-server.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
