@@ -1,26 +1,26 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 const bodyParser = require("body-parser");
-const bypassCors = require("@awaismirza/bypass-cors"); // Import bypass-cors
 
 const app = express();
 const PORT = 8000 || 5000; // Use environment variable or default
 
-// Apply bypass-cors to allow bypassing CORS for all live URLs
-app.use(bypassCors());
+// Configure CORS with specific origin and headers
+const corsOptions = {
+  origin: "https://parkme-lac.vercel.app/", // Update with your frontend URL
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true, // Allow cookies if needed
+};
+app.use(cors(corsOptions));
 
-// Add custom CORS headers (optional, if specific configurations needed)
+// Add custom CORS header
 app.use((req, res, next) => {
   res.setHeader(
     "Access-Control-Allow-Origin",
-    "https://parkme-lac.vercel.app/" // Replace with your frontend URL
-  );
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, OPTIONS"
-  );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.setHeader("Access-Control-Allow-Credentials", "true");
+    "https://parkme-lac.vercel.app/"
+  ); // replace with your frontend URL
   next();
 });
 
@@ -49,6 +49,8 @@ app.get("/api/notify", (req, res) => {
   longPollingClients.push(res);
 
   // Respond when a new entry is available
+  // You could have a mechanism to push notifications
+  // when new spots are reserved or data is changed
   res.on("close", () => {
     // Clean up when client disconnects
     longPollingClients = longPollingClients.filter((client) => client !== res);
