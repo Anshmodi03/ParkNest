@@ -9,7 +9,7 @@ const app = express();
 const server = http.createServer(app); // New
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000", // Client URL
+    origin: "https://parkme-lac.vercel.app", // Client URL
     methods: ["GET", "POST"],
   },
 });
