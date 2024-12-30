@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import axios from "axios"; // Import axios here
 import ParkingSpotList from "./components/ParkingSpotList";
 import HeroSection from "./components/HeroSection";
 import SlotsPage from "./components/SlotsPage";
@@ -7,6 +8,9 @@ import { TextParallaxContentExample } from "./components/Features";
 import AboutPage from "./components/AboutPage";
 import ContactPage from "./components/ContactPage";
 import "./App.css";
+
+// Set axios global default configuration
+axios.defaults.withCredentials = true;
 
 const App = () => {
   const [newEntry, setNewEntry] = useState(null);

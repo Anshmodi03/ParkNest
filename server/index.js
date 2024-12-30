@@ -6,35 +6,27 @@ const http = require("http");
 const { Server } = require("socket.io");
 
 const app = express();
-const PORT = 8000 || 5000; // Use process.env.PORT for deployment
-
-// Create HTTP server
 const server = http.createServer(app);
+
+// Configure CORS with specific origin and headers
+const corsOptions = {
+  origin: "https://parkme-lac.vercel.app", // Update with your client URL
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true, // Allow cookies if needed
+};
+app.use(cors(corsOptions));
 
 // Configure Socket.IO with CORS
 const io = new Server(server, {
-  cors: {
-<<<<<<< HEAD
-    origin: "https://parkme-lac.vercel.app", // Allow your frontend
-=======
-    origin: "https://parkme-lac.vercel.app", // Client URL
->>>>>>> e2275e8f64d7b4bdadd8a637d2acee06fa7f195a
-    methods: ["GET", "POST"],
-    credentials: true, // Allow credentials
-  },
+  cors: corsOptions,
 });
 
-// Middleware
-app.use(
-  cors({
-    origin: "https://parkme-lac.vercel.app", // Allow your frontend
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true, // Allow cookies and credentials
-  })
-);
+const PORT = 8000 || 5000; // Use environment variable or default
+
 app.use(bodyParser.json());
 
-// Basic route for testing
+// Add a route to display "Server is working" in the browser
 app.get("/", (req, res) => {
   res.send("Server is working");
 });
@@ -48,17 +40,20 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("Error connecting to MongoDB:", err));
 
-// Socket.IO connection
+// Notify clients of new entries via Socket.IO
 io.on("connection", (socket) => {
   console.log("Client connected");
+
+  // Example: Send a message to the client
+  socket.emit("message", "Welcome to the server!");
 
   socket.on("disconnect", () => {
     console.log("Client disconnected");
   });
 });
 
-// Import and use routes
-const parkingRoutes = require("./routes/parking")(io); // Pass io to routes
+// Import routes after setting up Socket.IO
+const parkingRoutes = require("./routes/parking")(io); // Pass io instance
 app.use("/api", parkingRoutes);
 
 // Start the server
