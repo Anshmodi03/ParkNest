@@ -8,12 +8,21 @@ const PORT = 8000 || 5000; // Use environment variable or default
 
 // Configure CORS with specific origin and headers
 const corsOptions = {
-  origin: "https://parkme-lac.vercel.app/", // Update with your client URL
+  origin: "https://parkme-lac.vercel.app/", // Update with your frontend URL
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true, // Allow cookies if needed
 };
 app.use(cors(corsOptions));
+
+// Add custom CORS header
+app.use((req, res, next) => {
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://parkme-lac.vercel.app/"
+  ); // replace with your frontend URL
+  next();
+});
 
 app.use(bodyParser.json());
 
