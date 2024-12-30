@@ -6,23 +6,8 @@ const bodyParser = require("body-parser");
 const app = express();
 const PORT = 8000 || 5000; // Use environment variable or default
 
-// Configure CORS with specific origin and headers
-const corsOptions = {
-  origin: "https://parkme-lac.vercel.app/", // Update with your frontend URL
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true, // Allow cookies if needed
-};
-app.use(cors(corsOptions));
-
-// Add custom CORS header
-app.use((req, res, next) => {
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    "https://parkme-lac.vercel.app/"
-  ); // replace with your frontend URL
-  next();
-});
+// Use the cors middleware to allow all origins
+app.use(cors()); // This will allow requests from all origins
 
 app.use(bodyParser.json());
 
@@ -49,8 +34,6 @@ app.get("/api/notify", (req, res) => {
   longPollingClients.push(res);
 
   // Respond when a new entry is available
-  // You could have a mechanism to push notifications
-  // when new spots are reserved or data is changed
   res.on("close", () => {
     // Clean up when client disconnects
     longPollingClients = longPollingClients.filter((client) => client !== res);
