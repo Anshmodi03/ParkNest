@@ -50,7 +50,7 @@ const ContactPage = () => {
 
     // Send data to the backend (if needed)
     try {
-      await axios.post("https://server-delta-blue.vercel.app/api/contact", formData);
+      await axios.post("http://localhost:8000/api/contact", formData);
     } catch (error) {
       console.error("Error saving contact data:", error);
     }

@@ -2,13 +2,14 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+require("dotenv").config();
 
 const app = express();
 const PORT = 8000 || 5000; // Use environment variable or default
 
 // Use the cors middleware with specific configuration
 const corsOptions = {
-  origin: "https://parkme-lac.vercel.app", // Replace with your frontend URL
+  origin: "http://localhost:3000", // Replace with your frontend URL
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true, // Allow cookies or authorization headers
@@ -25,7 +26,7 @@ app.get("/", (req, res) => {
 
 // MongoDB connection
 mongoose
-  .connect("mongodb://localhost:27017/parking_management", {
+  .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

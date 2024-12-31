@@ -17,9 +17,7 @@ const ParkingSpotList = () => {
   // Fetch the parking spots initially
   const fetchSpots = async () => {
     try {
-      const response = await axios.get(
-        "https://server-delta-blue.vercel.app/api/spots"
-      );
+      const response = await axios.get("http://localhost:8000/api/spots");
       setSpots(response.data);
     } catch (error) {
       console.error("Error fetching spots:", error);
@@ -29,12 +27,9 @@ const ParkingSpotList = () => {
   // Set up long polling to listen for new entries
   const startLongPolling = async () => {
     try {
-      const response = await axios.get(
-        "https://server-delta-blue.vercel.app/api/notify",
-        {
-          timeout: 0, // Ensure the connection stays open until the server responds
-        }
-      );
+      const response = await axios.get("http://localhost:8000/api/notify", {
+        timeout: 0, // Ensure the connection stays open until the server responds
+      });
 
       // Once the server sends the notification (when a new entry is made)
       const newSpot = response.data.spot;
@@ -73,9 +68,7 @@ const ParkingSpotList = () => {
 
   const handleDeleteSpot = async () => {
     try {
-      await axios.delete(
-        `https://server-delta-blue.vercel.app/api/spots/${spotToDelete}`
-      );
+      await axios.delete(`http://localhost:8000/api/spots/${spotToDelete}`);
       setSpots((prevSpots) =>
         prevSpots.filter((spot) => spot._id !== spotToDelete)
       );
