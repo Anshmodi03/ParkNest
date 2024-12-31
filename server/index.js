@@ -6,27 +6,20 @@ const bodyParser = require("body-parser");
 const app = express();
 const PORT = 8000 || 5000; // Use environment variable or default
 
-// Configure CORS with specific origin and headers
+// Use the cors middleware with specific configuration
 const corsOptions = {
-  origin: "https://parkme-lac.vercel.app/", // Update with your frontend URL
+  origin: "https://parkme-lac.vercel.app", // Replace with your frontend URL
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true, // Allow cookies if needed
+  credentials: true, // Allow cookies or authorization headers
 };
 app.use(cors(corsOptions));
-// Add custom CORS header
-app.use((req, res, next) => {
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    "https://parkme-lac.vercel.app/"
-  ); // replace with your frontend URL
-  next();
-});
 
 app.use(bodyParser.json());
 
 // Add a route to display "Server is working" in the browser
 app.get("/", (req, res) => {
+  res.setHeader("Content-Type", "text/plain"); // Explicitly set the response type
   res.send("Server is working");
 });
 
