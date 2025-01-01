@@ -50,7 +50,10 @@ const ContactPage = () => {
 
     // Send data to the backend (if needed)
     try {
-      await axios.post("http://localhost:8000/api/contact", formData);
+      await axios.post(
+        "https://parkme-server.vercel.app/api/contact",
+        formData
+      );
     } catch (error) {
       console.error("Error saving contact data:", error);
     }

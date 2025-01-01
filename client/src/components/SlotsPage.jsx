@@ -12,7 +12,9 @@ const SlotsPage = ({ onNewEntry }) => {
   useEffect(() => {
     const fetchOccupiedSlots = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/spots");
+        const response = await axios.get(
+          "https://parkme-server.vercel.app/api/spots"
+        );
         const occupied = response.data
           .filter((spot) => spot.occupied)
           .map((spot) => spot.slotNumber);
