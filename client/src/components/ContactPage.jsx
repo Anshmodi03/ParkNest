@@ -51,7 +51,7 @@ const ContactPage = () => {
     // Send data to the backend (if needed)
     try {
       await axios.post(
-        "https://parkme-server.vercel.app/api/contact",
+        "https://parkme-serverside.onrender.com/api/contact",
         formData
       );
     } catch (error) {

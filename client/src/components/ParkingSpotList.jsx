@@ -18,7 +18,7 @@ const ParkingSpotList = () => {
   const fetchSpots = async () => {
     try {
       const response = await axios.get(
-        "https://parkme-server.vercel.app/api/spots"
+        "https://parkme-serverside.onrender.com/api/spots"
       );
       setSpots(response.data);
     } catch (error) {
@@ -30,7 +30,7 @@ const ParkingSpotList = () => {
   const startLongPolling = async () => {
     try {
       const response = await axios.get(
-        "https://parkme-server.vercel.app/api/notify",
+        "https://parkme-serverside.onrender.com/api/notify",
         {
           timeout: 0, // Ensure the connection stays open until the server responds
         }
@@ -74,7 +74,7 @@ const ParkingSpotList = () => {
   const handleDeleteSpot = async () => {
     try {
       await axios.delete(
-        `https://parkme-server.vercel.app/api/spots/${spotToDelete}`
+        `https://parkme-serverside.onrender.com/api/spots/${spotToDelete}`
       );
       setSpots((prevSpots) =>
         prevSpots.filter((spot) => spot._id !== spotToDelete)
