@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 5000; // Use environment variable or default
 
 // Use the cors middleware with specific configuration
 const corsOptions = {
-  origin: "http://localhost:3000", // Replace with your frontend URL
+  origin: "https://parkme-lac.vercel.app", // Replace with your frontend URL
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true, // Allow cookies or authorization headers
