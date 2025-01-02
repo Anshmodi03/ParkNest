@@ -13,7 +13,7 @@ const SlotsPage = ({ onNewEntry }) => {
     const fetchOccupiedSlots = async () => {
       try {
         const response = await axios.get(
-          "https://parkme-serverside.onrender.com/api/spots"
+          "https://parkme-server.onrender.com/api/spots"
         );
         const occupied = response.data
           .filter((spot) => spot.occupied)

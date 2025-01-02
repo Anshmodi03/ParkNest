@@ -51,7 +51,7 @@ const ContactPage = () => {
     // Send data to the backend (if needed)
     try {
       await axios.post(
-        "https://parkme-serverside.onrender.com/api/contact",
+        "https://parkme-server.onrender.com/api/contact",
         formData
       );
     } catch (error) {
