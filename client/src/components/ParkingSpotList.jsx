@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { io } from "socket.io-client";
 import Popup from "./Popup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import SpringModal from "./SpringModal"; // Import SpringModal
 import { useNavigate } from "react-router-dom";
+
+const socket = io("https://parkme-server.onrender.com");
 
 const ParkingSpotList = () => {
   const [spots, setSpots] = useState([]);
@@ -14,46 +17,21 @@ const ParkingSpotList = () => {
   const [spotToDelete, setSpotToDelete] = useState(null);
   const navigate = useNavigate();
 
-  // Fetch the parking spots initially
   const fetchSpots = async () => {
-    try {
-      const response = await axios.get(
-        "https://parkme-server.onrender.com/api/spots"
-      );
-      setSpots(response.data);
-    } catch (error) {
-      console.error("Error fetching spots:", error);
-    }
-  };
-
-  // Set up long polling to listen for new entries
-  const startLongPolling = async () => {
-    try {
-      const response = await axios.get(
-        "https://parkme-server.onrender.com/api/notify",
-        {
-          timeout: 0, // Ensure the connection stays open until the server responds
-        }
-      );
-
-      // Once the server sends the notification (when a new entry is made)
-      const newSpot = response.data.spot;
-      if (newSpot) {
-        setSpots((prevSpots) => [...prevSpots, newSpot]);
-      }
-
-      // Re-initiate long polling after receiving a response
-      startLongPolling();
-    } catch (error) {
-      console.error("Error in long polling:", error);
-      // Retry the polling if it fails
-      startLongPolling();
-    }
+    const response = await axios.get(
+      "https://parkme-server.onrender.com/api/spots"
+    );
+    setSpots(response.data);
   };
 
   useEffect(() => {
     fetchSpots();
-    startLongPolling(); // Start long polling to get real-time updates
+    socket.on("new_entry", (newSpot) => {
+      setSpots((prevSpots) => [...prevSpots, newSpot]);
+    });
+    return () => {
+      socket.off("new_entry");
+    };
   }, []);
 
   const handleButtonClick = (spot) => {
