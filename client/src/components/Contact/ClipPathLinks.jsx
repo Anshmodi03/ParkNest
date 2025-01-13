@@ -24,18 +24,18 @@ const Example = () => {
 
 const ClipPathLinks = () => {
   return (
-    <div className="divide-y text-white border border-neutral-900">
-      <div className="grid grid-cols-2 divide-x divide-white">
+    <div className="divide-y text-white border border-none">
+      <div className="flex space-x-4">
         <LinkBox Icon={SiGoogle} href="https://www.google.com/" />
         <LinkBox Icon={SiShopify} href="https://www.shopify.com/in" />
       </div>
-      <div className="grid grid-cols-4 divide-x divide-white">
+      <div className="flex space-x-4 mt-4">
         <LinkBox Icon={SiApple} href="https://www.apple.com/in/" />
         <LinkBox Icon={SiSoundcloud} href="https://soundcloud.com/" />
         <LinkBox Icon={SiAdobe} href="https://new.express.adobe.com/" />
         <LinkBox Icon={SiFacebook} href="https://www.facebook.com/" />
       </div>
-      <div className="grid grid-cols-3 divide-x divide-white">
+      <div className="flex space-x-4 mt-4">
         <LinkBox Icon={SiMedium} href="https://medium.com/@modiaastha01" />
         <LinkBox Icon={SiStackoverflow} href="https://stackoverflow.com/" />
         <LinkBox
@@ -127,18 +127,18 @@ const LinkBox = ({ Icon, href }) => {
       onMouseLeave={(e) => {
         handleMouseLeave(e);
       }}
-      className="relative grid h-20 w-full place-content-center sm:h-28 md:h-36"
+      className="relative flex items-center justify-center h-20 w-20 sm:h-28 sm:w-28 md:h-36 md:w-36 bg-transparent"
     >
-      <Icon className="text-xl sm:text-3xl lg:text-4xl" />
+      <Icon className="text-xl sm:text-3xl lg:text-4xl text-white mt-4" />
 
       <div
         ref={scope}
         style={{
           clipPath: BOTTOM_RIGHT_CLIP,
         }}
-        className="absolute inset-0 grid place-content-center bg-white text-black"
+        className="absolute inset-0 flex items-center justify-center"
       >
-        <Icon className="text-xl sm:text-3xl md:text-4xl" />
+        <Icon className="text-xl sm:text-3xl md:text-4xl mt-4" />
       </div>
     </a>
   );

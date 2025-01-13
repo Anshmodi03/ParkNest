@@ -9,8 +9,8 @@ const CarSlot = lazy(() => import("./CarSlot"));
 
 function Car({ occupiedSlots, selectedSlot, onSelectSlot }) {
   return (
-    <div className="grid grid-cols-5 gap-6 p-6">
-      {/* 5x5 grid layout (25 slots) */}
+    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-5 gap-6 p-6">
+      {/* 5x5 grid layout (27 slots) */}
       {[...Array(25)].map((_, index) => {
         const slotNumber = index + 1;
         const isOccupied = occupiedSlots.includes(slotNumber);

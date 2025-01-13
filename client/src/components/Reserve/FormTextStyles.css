@@ -1,0 +1,11 @@
+span {
+  color: #ffffff;
+  font-size: 18px;
+}
+
+h1,
+.form-title,
+.wave-group .label,
+.wave-group .input {
+  font-family: "Arial", sans-serif;
+}

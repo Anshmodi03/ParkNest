@@ -7,8 +7,8 @@ const Popup = ({ spot, onClose }) => {
   const handleDownload = () => {
     if (popupRef.current) {
       html2canvas(popupRef.current, {
-        backgroundColor: "#ffffff", // Ensure white background
-        scale: 2, // Higher resolution for better quality
+        backgroundColor: "#ffffff",
+        scale: 2,
       }).then((canvas) => {
         const link = document.createElement("a");
         link.href = canvas.toDataURL("image/png");
@@ -56,16 +56,20 @@ const Popup = ({ spot, onClose }) => {
             <strong>Registered on:</strong>{" "}
             {new Date(spot.registrationDate).toLocaleString()}
           </p>
+          <p>
+            <strong>Expiration Date:</strong>{" "}
+            {new Date(spot.expirationDate).toLocaleString()}
+          </p>
         </div>
-        <div className="flex space-x-4 mt-4">
+        <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 mt-4 w-full justify-center">
           <button
-            className="bg-blue-600 text-white px-4 py-1 rounded-full text-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+            className="bg-blue-600 text-white px-4 sm:px-6 py-2 w-full md:w-40 rounded-full text-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
             onClick={handleDownload}
           >
             Download
           </button>
           <button
-            className="bg-red-600 text-white px-4 py-1 rounded-full text-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors"
+            className="bg-red-600 text-white px-4 sm:px-6 py-2 w-full md:w-40 rounded-full text-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors"
             onClick={onClose}
           >
             Close

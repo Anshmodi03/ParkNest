@@ -1,9 +1,10 @@
-import React, { useState, useRef } from "react";
-import axios from "axios";
+import React, { useState, useRef, lazy, Suspense } from "react";
 import { useNavigate } from "react-router-dom";
 import emailjs from "@emailjs/browser";
-import Header from "./Header";
-import Example from "./ClipPathLinks";
+
+// Lazy loading components
+const Header = lazy(() => import("../Header/Header"));
+const Example = lazy(() => import("./ClipPathLinks"));
 
 const ContactPage = () => {
   const form = useRef(); // Create a ref for the form
@@ -50,8 +51,9 @@ const ContactPage = () => {
 
     // Send data to the backend (if needed)
     try {
-      await axios.post(
-        "https://parkme-server.onrender.com/api/contact",
+      const response = await import("axios");
+      await response.default.post(
+        "http://localhost:8000/api/contact",
         formData
       );
     } catch (error) {
@@ -67,11 +69,13 @@ const ContactPage = () => {
         outline: "none",
       }}
     >
-      <Header />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Header />
+      </Suspense>
       <div className="text-white grid grid-cols-1 md:grid-cols-2 gap-8 py-12 px-6 outline-none">
         <div className="w-full max-w-2xl mx-auto p-8 bg-transparent rounded-xl outline-none shadow-xl backdrop-blur-sm">
           <h1 className="text-5xl font-bold text-center text-white mb-6">
-            Reach Out to Us
+            Reach Out
           </h1>
           <p className="text-center text-xl mb-8">
             We'd love to hear your feedback or answer any questions.
@@ -119,8 +123,10 @@ const ContactPage = () => {
           </form>
           {status && <p className="mt-4 text-center text-white">{status}</p>}
         </div>
-        <div className="w-full mx-auto p-8 rounded-xl shadow-xl">
-          <Example />
+        <div>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Example />
+          </Suspense>
         </div>
       </div>
     </div>

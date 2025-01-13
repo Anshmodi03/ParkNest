@@ -1,7 +1,10 @@
-import React, { useRef } from "react";
+// Import React and dynamic imports for code splitting
+import React, { useRef, lazy, Suspense } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { FiArrowUpRight } from "react-icons/fi";
-import Header from "./Header";
+
+// Lazy load the Header component
+const Header = lazy(() => import("../Header/Header"));
 
 export const TextParallaxContentExample = () => {
   return (
@@ -15,7 +18,9 @@ export const TextParallaxContentExample = () => {
         minHeight: "100vh",
       }}
     >
-      <Header />
+      <Suspense fallback={<div>Loading Header...</div>}>
+        <Header />
+      </Suspense>
       <TextParallaxContent
         imgUrl="/Designer.jpeg"
         subheading="Modern"
@@ -157,9 +162,9 @@ const ExampleContent = ({ title, text, detail }) => {
         <p className="mb-8 text-xl text-neutral-400 md:text-2xl">{detail}</p>
         <button
           onClick={handleLearnMore}
-          className="w-full rounded bg-neutral-900 px-9 py-3 text-xl text-white transition-colors hover:bg-neutral-700 md:w-fit"
+          className="w-50 rounded bg-neutral-900 px-9 py-3 text-xl text-white transition-colors hover:bg-neutral-700 md:w-50"
         >
-          Learn more <FiArrowUpRight className="inline -mt-3 " />
+          Learn more <FiArrowUpRight className="inline -mt-3" />
         </button>
       </div>
     </div>

@@ -1,4 +1,3 @@
-// server/models/ParkingSpot.js
 const mongoose = require("mongoose");
 
 const parkingSpotSchema = new mongoose.Schema({
@@ -7,7 +6,8 @@ const parkingSpotSchema = new mongoose.Schema({
   userName: { type: String, required: true, unique: true },
   contactEmail: { type: String, required: true, unique: true },
   occupied: { type: Boolean, default: false },
-  registrationDate: { type: Date, default: () => new Date() }, // New field for timestamp
+  registrationDate: { type: Date, default: () => new Date() },
+  expirationDate: { type: Date }, // New field for expiration timestamp
 });
 
 module.exports = mongoose.model("ParkingSpot", parkingSpotSchema);

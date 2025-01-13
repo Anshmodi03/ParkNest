@@ -1,0 +1,24 @@
+.symbol {
+  /* Default Styles */
+  margin-top: 1rem; /* Adds space above the symbol */
+  height: 0.5rem; /* Default height */
+  width: 3.5rem; /* Default width */
+  background-color: #4b5563; /* Neutral gray color */
+  border-radius: 9999px; /* Makes the symbol rounded */
+}
+
+@media (max-width: 768px) {
+  .symbol {
+    margin-top: 0.5rem; /* Smaller margin for tablets and mobile */
+    height: 0.4rem; /* Adjust height */
+    width: 3rem; /* Adjust width */
+  }
+}
+
+@media (max-width: 480px) {
+  .symbol {
+    margin-top: 0.3rem; /* Smaller margin for small screens */
+    height: 0.3rem; /* Adjust height further */
+    width: 2.5rem; /* Adjust width further */
+  }
+}

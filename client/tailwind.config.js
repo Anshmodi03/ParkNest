@@ -10,6 +10,7 @@ module.exports = {
       },
       animation: {
         fadeIn: "fadeIn 0.5s ease-out forwards",
+        progress: "progress 3s linear",
       },
       keyframes: {
         fadeIn: {

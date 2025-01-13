@@ -1,13 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import axios from "axios";
-import NumberBoxes from "./NumberBoxes";
-import "./ParkingSpotForm.css";
+import { z } from "zod";
 import ButtonWrapper from "./animatedsubmmit";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { z } from "zod";
+import "./ParkingSpotForm.css";
+import "./WaveGroup.css";
+import "./FormTextStyles.css";
+
+// Lazy load the NumberBoxes component
+const NumberBoxes = React.lazy(() => import("../Slots/NumberBoxes"));
 
 // Zod schema for validating the vehicle number format
 const vehicleNumberSchema = z
@@ -17,7 +21,7 @@ const vehicleNumberSchema = z
     "Invalid vehicle number format. Example: MH-12-AB1234"
   )
   .min(10, "Vehicle number must be at least 10 characters long")
-  .max(13, "Vehicle number must be at most 13s characters long");
+  .max(13, "Vehicle number must be at most 13 characters long");
 
 // Modal style
 const style = {
@@ -38,6 +42,7 @@ const ParkingSpotForm = ({ onNewEntry, initialSlotNumber = "" }) => {
     vehicleNumber: "",
     userName: "",
     contactEmail: "",
+    duration: "", // Added booking duration field
   });
   const [occupiedSlots, setOccupiedSlots] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
@@ -49,9 +54,7 @@ const ParkingSpotForm = ({ onNewEntry, initialSlotNumber = "" }) => {
   useEffect(() => {
     const fetchOccupiedSlots = async () => {
       try {
-        const response = await axios.get(
-          "https://parkme-server.onrender.com/api/spots"
-        );
+        const response = await axios.get("http://localhost:8000/api/spots");
         const occupied = response.data
           .filter((spot) => spot.occupied)
           .map((spot) => spot.slotNumber);
@@ -86,7 +89,7 @@ const ParkingSpotForm = ({ onNewEntry, initialSlotNumber = "" }) => {
 
       // If validation passes, proceed with form submission
       const response = await axios.post(
-        "https://parkme-server.onrender.com/api/reserve",
+        "http://localhost:8000/api/reserve",
         formData
       );
       onNewEntry(response.data);
@@ -95,6 +98,7 @@ const ParkingSpotForm = ({ onNewEntry, initialSlotNumber = "" }) => {
         vehicleNumber: "",
         userName: "",
         contactEmail: "",
+        duration: "", // Reset booking duration field
       });
       setErrorMessage(""); // Clear error on success
       handleOpen(); // Show success modal
@@ -105,15 +109,17 @@ const ParkingSpotForm = ({ onNewEntry, initialSlotNumber = "" }) => {
 
   return (
     <div className="form-container">
-      <h1 className="form-title text-shadow-md text-3xl font-bold text-black -m-4">
+      <h1 className="form-title text-shadow-md text-3xl font-bold text-white -m-4">
         Reserve Your Parking Spot
       </h1>
       <form onSubmit={handleSubmit}>
-        <NumberBoxes
-          occupiedSlots={occupiedSlots}
-          selectedSlot={formData.slotNumber}
-          onSelectSlot={handleSelectSlot}
-        />
+        <Suspense fallback={<div>Loading slots...</div>}>
+          <NumberBoxes
+            occupiedSlots={occupiedSlots}
+            selectedSlot={formData.slotNumber}
+            onSelectSlot={handleSelectSlot}
+          />
+        </Suspense>
 
         {/* Vehicle Number Input */}
         <div className="wave-group">
@@ -139,6 +145,10 @@ const ParkingSpotForm = ({ onNewEntry, initialSlotNumber = "" }) => {
             ))}
           </label>
         </div>
+        {/* Display vehicle number validation error below the input */}
+        {errorMessage && formData.vehicleNumber && (
+          <p className="error text-red-500">{errorMessage}</p>
+        )}
 
         {/* User Name Input */}
         <div className="wave-group">
@@ -179,6 +189,31 @@ const ParkingSpotForm = ({ onNewEntry, initialSlotNumber = "" }) => {
           <span className="bar"></span>
           <label className="label">
             {"Contact Email".split("").map((char, index) => (
+              <span
+                key={index}
+                className="label-char"
+                style={{ "--index": index }}
+              >
+                {char}
+              </span>
+            ))}
+          </label>
+        </div>
+
+        {/* Booking Duration Input */}
+        <div className="wave-group">
+          <input
+            required
+            type="number"
+            className="input"
+            name="duration"
+            placeholder=" "
+            value={formData.duration}
+            onChange={handleChange}
+          />
+          <span className="bar"></span>
+          <label className="label">
+            {"Booking Duration (minutes)".split("").map((char, index) => (
               <span
                 key={index}
                 className="label-char"

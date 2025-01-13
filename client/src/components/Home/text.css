@@ -1,0 +1,203 @@
+@import url("https://fonts.googleapis.com/css2?family=Aboreto&display=swap");
+
+svg {
+  font-family: "Aboreto", sans-serif;
+  width: 110%;
+  height: 100%;
+  margin-top: -20px;
+}
+svg text {
+  animation: stroke 4s infinite alternate;
+  stroke-width: 2;
+  stroke: #ffffff;
+  font-size: 69px;
+  font-weight: 700;
+}
+
+@keyframes stroke {
+  0% {
+    fill: rgba(204, 204, 204, 0);
+    stroke: rgb(255, 255, 255);
+    stroke-dashoffset: 25%;
+    stroke-dasharray: 0 50%;
+    stroke-width: 2;
+  }
+  70% {
+    fill: rgba(204, 204, 204, 0);
+    stroke: rgb(255, 255, 255);
+  }
+  80% {
+    fill: rgba(204, 204, 204, 0);
+    stroke: rgb(192, 199, 197);
+    stroke-width: 3;
+  }
+  100% {
+    fill: rgb(255, 255, 255);
+    stroke: rgba(255, 102, 0, 0.616);
+    stroke-dashoffset: -25%;
+    stroke-dasharray: 50% 0;
+    stroke-width: 0;
+  }
+}
+
+.wrapper {
+  background-color: transparent;
+  margin-bottom: -27px;
+}
+
+.text-gradient {
+  background-size: 100% 100%;
+  background-position: 0px 0px, 0px 0px, 0px 0px, 0px 0px;
+  background-image: repeating-conic-gradient(
+      from 108deg at 45% 47%,
+      #ffcc80 0%,
+      #ffc107 40%,
+      #81d4fa 70%,
+      #03a9f4 100%
+    ),
+    radial-gradient(
+      113% 91% at 17% -2%,
+      #ce93d8 10%,
+      #ba68c8 50%,
+      #00000000 99%
+    ),
+    radial-gradient(142% 91% at 83% 7%, #a5d6a7 20%, #66bb6a 60%, #00000000 99%),
+    radial-gradient(
+      142% 91% at -6% 74%,
+      #90caf9 30%,
+      #58b4ff 70%,
+      #00000000 99%
+    ),
+    radial-gradient(
+      142% 91% at 111% 84%,
+      #ffab91 15%,
+      #ff7043 50%,
+      #ff5722 85%,
+      #000000ff 100%
+    );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  word-spacing: -10px;
+}
+
+.btn {
+  padding: 0.1em 0.25em;
+  width: 13em;
+  height: 4.2em;
+  background-color: transparent;
+  border: 0.08em solid #fff;
+  border-radius: 0.3em;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.btn span {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 0.4em;
+  width: 8.25em;
+  height: 2.5em;
+  background-color: transparent;
+  border-radius: 0.2em;
+  font-size: 1.5em;
+  color: #fff;
+  border: 0.08em solid #fff;
+  box-shadow: 0 0.4em 0.1em 0.019em #fff;
+}
+
+.btn span:hover {
+  transition: all 0.5s;
+  transform: translate(0, 0.4em);
+  box-shadow: 0 0 0 0 #fff;
+}
+
+.btn span:not(hover) {
+  transition: all 1s;
+}
+
+.imagebg {
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 600px) {
+  svg {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 20px;
+  }
+  svg text {
+    font-size: 60px;
+    stroke-width: 1.5;
+  }
+
+  .text-gradient {
+    font-size: 40px;
+    word-spacing: 5px;
+    margin-bottom: 20px;
+  }
+
+  .imagebg {
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 93vh;
+    overflow: scroll;
+  }
+
+  .btn {
+    margin-top: 10px;
+  }
+
+  .container {
+    margin-top: 100px;
+  }
+}
+
+@media screen and (width: 400px) {
+  svg {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 20px;
+  }
+  svg text {
+    font-size: 50px;
+    stroke-width: 1.2;
+  }
+
+  .text-gradient {
+    font-size: 35px;
+    word-spacing: 3px;
+    margin-bottom: 15px;
+  }
+
+  .btn {
+    width: 10em;
+    height: 3.5em;
+  }
+
+  .btn span {
+    font-size: 1.2em;
+  }
+
+  .imagebg {
+    height: 85vh;
+  }
+
+  .container {
+    margin-top: 50px;
+  }
+
+  .ress {
+    font-size: 12px;
+  }
+
+  .rext {
+    font-size: 10px;
+  }
+}
