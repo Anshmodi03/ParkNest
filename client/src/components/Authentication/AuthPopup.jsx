@@ -38,7 +38,7 @@ const AuthPopup = ({ open, handleClose, setIsAuthenticated }) => {
       const endpoint =
         authMode === "signup" ? "/api/auth/signup" : "/api/auth/login";
       const { data } = await axios.post(
-        `http://localhost:8000${endpoint}`,
+        `https://parkme-server.onrender.com${endpoint}`,
         formData
       );
       if (authMode === "login") {

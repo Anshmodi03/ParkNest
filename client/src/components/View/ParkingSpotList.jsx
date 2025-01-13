@@ -19,7 +19,9 @@ const ParkingSpotList = () => {
 
   // Fetch spots from the backend
   const fetchSpots = async () => {
-    const response = await axios.get("http://localhost:8000/api/spots");
+    const response = await axios.get(
+      "https://parkme-server.onrender.com/api/spots"
+    );
     setSpots(response.data);
   };
 
@@ -59,7 +61,9 @@ const ParkingSpotList = () => {
 
   const handleDeleteSpot = async () => {
     try {
-      await axios.delete(`http://localhost:8000/api/spots/${spotToDelete}`);
+      await axios.delete(
+        `https://parkme-server.onrender.com/api/spots/${spotToDelete}`
+      );
       setSpots((prevSpots) =>
         prevSpots.filter((spot) => spot._id !== spotToDelete)
       );

@@ -53,7 +53,7 @@ const ContactPage = () => {
     try {
       const response = await import("axios");
       await response.default.post(
-        "http://localhost:8000/api/contact",
+        "https://parkme-server.onrender.com/api/contact",
         formData
       );
     } catch (error) {

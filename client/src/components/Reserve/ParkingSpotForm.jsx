@@ -54,7 +54,9 @@ const ParkingSpotForm = ({ onNewEntry, initialSlotNumber = "" }) => {
   useEffect(() => {
     const fetchOccupiedSlots = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/spots");
+        const response = await axios.get(
+          "https://parkme-server.onrender.com/api/spots"
+        );
         const occupied = response.data
           .filter((spot) => spot.occupied)
           .map((spot) => spot.slotNumber);
@@ -89,7 +91,7 @@ const ParkingSpotForm = ({ onNewEntry, initialSlotNumber = "" }) => {
 
       // If validation passes, proceed with form submission
       const response = await axios.post(
-        "http://localhost:8000/api/reserve",
+        "https://parkme-server.onrender.com/api/reserve",
         formData
       );
       onNewEntry(response.data);

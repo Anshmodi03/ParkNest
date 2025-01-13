@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import io from "socket.io-client";
 
-const socket = io("http://localhost:8000"); // Update with your deployed backend URL
+const socket = io("https://parkme-server.onrender.com"); // Update with your deployed backend URL
 
 const useOccupiedSlots = () => {
   const [occupiedSlots, setOccupiedSlots] = useState([]);
@@ -12,7 +12,9 @@ const useOccupiedSlots = () => {
   const fetchOccupiedSlots = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:8000/api/spots"); // Update with your backend URL
+      const response = await axios.get(
+        "https://parkme-server.onrender.com/api/spots"
+      ); // Update with your backend URL
       const occupied = response.data
         .filter((spot) => spot.occupied)
         .map((spot) => spot.slotNumber);
