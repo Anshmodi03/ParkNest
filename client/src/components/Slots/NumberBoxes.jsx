@@ -1,23 +1,34 @@
 import React, { useState, useEffect } from "react";
 import "../Reserve/ParkingSpotForm.css"; // Ensure styles match
-import { io } from "socket.io-client"; // Import socket.io-client
+import axios from "axios";
 
 const NumberBoxes = ({ selectedSlot, onSelectSlot }) => {
   const [occupiedSlots, setOccupiedSlots] = useState([]);
 
-  useEffect(() => {
-    // Establish the WebSocket connection
-    const socket = io("https://parkme-server.onrender.com"); // Server URL
-
-    // Listen for updates on occupied slots
-    socket.on("updateOccupiedSlots", (occupied) => {
+  // Function to fetch occupied slots
+  const fetchOccupiedSlots = async () => {
+    try {
+      const response = await axios.get(
+        "https://parkme-server.onrender.com/api/spots"
+      );
+      const occupied = response.data
+        .filter((spot) => spot.occupied)
+        .map((spot) => spot.slotNumber);
       setOccupiedSlots(occupied);
-    });
+    } catch (err) {
+      console.error("Error fetching slots:", err);
+    }
+  };
 
-    // Cleanup the socket connection when the component unmounts
-    return () => {
-      socket.disconnect();
-    };
+  // Fetch occupied slots periodically
+  useEffect(() => {
+    fetchOccupiedSlots(); // Initial fetch
+
+    const interval = setInterval(() => {
+      fetchOccupiedSlots(); // Fetch slots every 5 seconds
+    }, 5000);
+
+    return () => clearInterval(interval); // Cleanup on unmount
   }, []);
 
   return (
@@ -40,7 +51,7 @@ const NumberBoxes = ({ selectedSlot, onSelectSlot }) => {
                     ? "bg-blue-500 text-white"
                     : "bg-white text-green-800 hover:bg-green-400 hover:text-white hover:scale-110"
                 }
-                ${slotNumber === 25 ? "col-start-6" : ""}`}
+                ${slotNumber === 25 ? "col-start-6  " : ""}`}
             >
               {slotNumber}
             </div>
