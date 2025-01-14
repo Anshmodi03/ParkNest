@@ -92,6 +92,14 @@ After running the above commands, all required dependencies for both the fronten
    JWT_SECRET=<your-JWT-secret key>
    ```
 
+### 3. Update the Live Links to Localhost
+
+- **Server**:  
+  Update the `cors` and `socket.io` configurations to replace the live frontend link with `http://localhost:3000`.
+
+- **Client**:  
+  Update the API or server configuration to replace the live backend link with `http://localhost:<server-port>`, where `<server-port>` is the port number your backend server is running on locally.
+
 ### 4. Run the Application
 
 - **Frontend**:
