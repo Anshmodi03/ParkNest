@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 const Example = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-transparent px-4 py-24">
-      <div className="absolute top-4 left-4 right-4 bg-yellow-200 text-yellow-800 text-sm font-medium px-4 py-2 rounded-md shadow-md mt-6">
+      <div className="absolute top-4 left-4 right-4 bg-yellow-200 text-yellow-800 text-sm font-medium px-4 py-2 rounded-md shadow-md mt-24">
         Disclaimer: If stuck at loading, please reload the website.
       </div>
       <BarLoader />
