@@ -2,8 +2,24 @@ const express = require("express");
 const router = express.Router();
 const ParkingSpot = require("../models/ParkingSpot");
 const Contact = require("../models/Contact");
+const Booking = require("../models/Booking");
+const jwt = require("jsonwebtoken");
 
 module.exports = (io) => {
+  // Middleware to verify token
+  const authenticate = (req, res, next) => {
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) return res.status(401).json({ error: "Unauthorized" });
+
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = decoded;
+      next();
+    } catch (error) {
+      res.status(401).json({ error: "Invalid token" });
+    }
+  };
+
   // Get all parking spots with WebSocket support
   router.get("/spots", async (req, res) => {
     try {
@@ -42,6 +58,17 @@ module.exports = (io) => {
 
       await spot.save();
 
+      // Save booking details to Booking model
+      const booking = new Booking({
+        slotNumber,
+        vehicleNumber,
+        userName,
+        contactEmail,
+        registrationDate: new Date(),
+        expirationDate,
+      });
+      await booking.save();
+
       // Notify all connected clients of the new reservation
       io.emit("new_entry", spot);
 
@@ -63,6 +90,27 @@ module.exports = (io) => {
     }
   });
 
+  // Fetch all bookings with vehicle number visibility based on admin status
+  router.get("/bookings", authenticate, async (req, res) => {
+    try {
+      const bookings = await Booking.find().sort({ registrationDate: -1 });
+
+      if (req.user.isAdmin) {
+        return res.status(200).json(bookings); // Admin can view full details
+      }
+
+      // Non-admin users see bookings without vehicle numbers
+      const filteredBookings = bookings.map((booking) => {
+        const { vehicleNumber, ...rest } = booking._doc;
+        return rest;
+      });
+
+      res.status(200).json(filteredBookings);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch bookings" });
+    }
+  });
+
   // Delete a parking spot
   router.delete("/spots/:id", async (req, res) => {
     try {
@@ -71,6 +119,12 @@ module.exports = (io) => {
       if (!deletedSpot) {
         return res.status(404).json({ message: "Spot not found" });
       }
+
+      // Mark related bookings as removedSlot
+      await Booking.updateMany(
+        { slotNumber: deletedSpot.slotNumber },
+        { $set: { removedSlot: true } }
+      );
 
       // Notify all connected clients of the deletion
       io.emit("spot_deleted", { id });
