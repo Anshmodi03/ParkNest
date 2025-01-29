@@ -100,28 +100,67 @@ After running the above commands, all required dependencies for both the fronten
 - **Client**:  
   Update the API or server configuration to replace the live backend link with `http://localhost:<server-port>`, where `<server-port>` is the port number your backend server is running on locally.
 
-### 4. Run the Application
+### 4. Making a User an Admin in MongoDB
+
+To grant admin privileges to a user in MongoDB, follow these steps:
+
+1. **Open MongoDB Shell**
+
+Connect to your MongoDB instance using the terminal or command prompt.
+
+2. **Find the User by Email**
+
+Run the following command to check if the user exists in the database:
+
+```shell
+db.users.find({ email: "<give the email you want to make admin>" });
+```
+
+3. **Update the User to Admin**
+
+```shell
+db.users.updateOne({ email: "<give the email you want to make admin>" }, { $set: { isAdmin: true } });
+```
+
+4. **Verify the Update**
+
+Confirm that the user is now an admin by running:
+
+```shell
+db.users.find({ email: "<give the email you want to make admin>" });
+```
+
+Now, the user has admin privileges in your application. 🚀
+
+### 5. Run the Application
 
 - **Frontend**:
 
-  1. Navigate to the `client` directory:
-     ```bash
-     cd client
-     ```
-  2. Start the frontend application:
-     ```bash
-     npm start
-     ```
+1. Navigate to the `client` directory:
+
+```bash
+cd client
+```
+
+2. Start the frontend application:
+
+```bash
+npm start
+```
 
 - **Backend**:
-  1. Navigate to the `server` directory:
-     ```bash
-     cd server
-     ```
-  2. Start the backend application:
-     ```bash
-     npm start
-     ```
+
+1. Navigate to the `server` directory:
+
+```bash
+cd server
+```
+
+2. Start the backend application:
+
+```bash
+npm start
+```
 
 Once both applications are running, open your browser and go to `http://localhost:3000` to view the frontend, and the backend should be running on `http://localhost:8000` (or the specified port).
 
@@ -176,3 +215,7 @@ If you have any questions, feedback, or suggestions, feel free to reach out!
 - **Deployed Site**: [ParkNest](https://parknest.vercel.app/)
 
 ---
+
+```
+
+```
